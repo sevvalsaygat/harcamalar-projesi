@@ -1,3 +1,12 @@
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -15,6 +24,17 @@ public class AnaEkran extends javax.swing.JFrame {
      */
     public AnaEkran() {
         initComponents();
+        try {
+            //Dosya okuma işlemleri
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(new File("src/harcamalar.txt")));
+            for (String satir; (satir = bufferedReader.readLine()) != null;) {
+                System.out.println("şuan ki satır = " + satir);
+            }            
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(AnaEkran.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(AnaEkran.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -36,10 +56,7 @@ public class AnaEkran extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "Title 1", "Title 2", "Title 3", "Title 4"
