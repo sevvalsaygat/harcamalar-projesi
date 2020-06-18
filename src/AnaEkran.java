@@ -126,13 +126,13 @@ public class AnaEkran extends javax.swing.JFrame {
                         enAzHarcamaYapanAyTutar = entry.getValue();
                     }
                 }
-                ((DefaultTableModel) jTable_AYLAR1.getModel()).addRow(new Object[]{entry.getKey(), entry.getValue()});
+                ((DefaultTableModel) jTable_AYLAR1.getModel()).addRow(new Object[]{turkceyeCevir(entry.getKey()), entry.getValue()});
                 sira++;
             }
-            jLabel_ENAZHARYAPAY.setText("En az har yap ay : " + enAzHarcamaYapanAy);
+            jLabel_ENAZHARYAPAY.setText("En az har yap ay : " + turkceyeCevir(enAzHarcamaYapanAy));
             
             for (Map.Entry<String, Double> entry : gunler.entrySet()) {
-                ((DefaultTableModel) jTable_GUNLER.getModel()).addRow(new Object[]{entry.getKey(), entry.getValue()});
+                ((DefaultTableModel) jTable_GUNLER.getModel()).addRow(new Object[]{turkceyeCevir(entry.getKey()), entry.getValue()});
             }
             
             if (haftaici > haftasonu) {
@@ -146,6 +146,50 @@ public class AnaEkran extends javax.swing.JFrame {
             Logger.getLogger(AnaEkran.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(AnaEkran.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public String turkceyeCevir(String kelime) {
+        if (kelime.equals("Thu")) {
+            return "Perşembe";
+        } else if (kelime.equals("Tue")){
+            return "Salı";
+        } else if (kelime.equals("Sat")){
+            return "Cumartesi";
+        } else if (kelime.equals("Wed")){
+            return "Çarşamba";
+        } else if (kelime.equals("Fri")){
+            return "Cuma";
+        } else if (kelime.equals("Sun")){
+            return "Pazar";
+        } else if (kelime.equals("Mon")){
+            return "Pazartesi";
+        } else if (kelime.equals("Jul")){
+            return "Temmuz";
+        } else if (kelime.equals("Oct")){
+            return "Ekim";
+        } else if (kelime.equals("Feb")){
+            return "Şubat";
+        } else if (kelime.equals("Apr")){
+            return "Nisan";
+        } else if (kelime.equals("Jun")){
+            return "Haziran";
+        } else if (kelime.equals("Aug")){
+            return "Ağustos";
+        } else if (kelime.equals("Dec")){
+            return "Aralık";
+        } else if (kelime.equals("May")){
+            return "Mayıs";
+        } else if (kelime.equals("Nov")){
+            return "Kasım";
+        } else if (kelime.equals("Jan")){
+            return "Ocak";
+        } else if (kelime.equals("Mar")){
+            return "Mart";
+        } else if (kelime.equals("Sep")){
+            return "Eylül";
+        } else {
+            return "Çevrilemedi";
         }
     }
 
