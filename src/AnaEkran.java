@@ -26,6 +26,8 @@ public class AnaEkran extends javax.swing.JFrame {
     HashMap<String, Double> kategoriler = new HashMap<>();
     HashMap<String, Double> aylar = new HashMap<>();
     HashMap<String, Double> gunler = new HashMap<>();
+    double haftaici = 0;
+    double haftasonu = 0;
     /**
      * Creates new form AnaEkran
      */
@@ -63,6 +65,13 @@ public class AnaEkran extends javax.swing.JFrame {
                     try {
                         Date tarih = new SimpleDateFormat("d.M.yyyy").parse(satir.split(";")[1]);
                         
+                        if (tarih.toString().split(" ")[0].equals("Sat") || tarih.toString().split(" ")[0].equals("Sun")) {
+                            haftasonu+=Double.valueOf(satir.split(";")[3]);
+                        } else {
+                            haftaici+=Double.valueOf(satir.split(";")[3]);
+                        }
+                        
+                        
                         if (gunler.containsKey(tarih.toString().split(" ")[0])) {                    
                             gunler.put(tarih.toString().split(" ")[0], gunler.get(tarih.toString().split(" ")[0]) + Double.valueOf(satir.split(";")[3]));
                         } else {
@@ -83,28 +92,56 @@ public class AnaEkran extends javax.swing.JFrame {
             }
             
             
+            // 4 , 10 , 2 , 8
             
-            
+            String enCokHarcamaYapanKategori = "";
+            double enCokHarcamaYapanKategoriTutar = 0;
+            sira = 0;
             
             for (Map.Entry<String, Double> entry : kategoriler.entrySet()) {
+                if (sira == 0) {
+                    enCokHarcamaYapanKategori = entry.getKey();
+                    enCokHarcamaYapanKategoriTutar = entry.getValue();
+                } else {
+                    if (enCokHarcamaYapanKategoriTutar < entry.getValue()) {
+                        enCokHarcamaYapanKategori = entry.getKey();
+                        enCokHarcamaYapanKategoriTutar = entry.getValue();
+                    }
+                }
                 ((DefaultTableModel) jTable_KATEGORILER.getModel()).addRow(new Object[]{entry.getKey(), entry.getValue()});
+                sira++;
             }
+            jLabel_ENCOKHARYAPKAT.setText("En çok harca yap kat : " +enCokHarcamaYapanKategori);
+            String enAzHarcamaYapanAy = "";
+            double enAzHarcamaYapanAyTutar = 0;
+            sira = 0;
             
             for (Map.Entry<String, Double> entry : aylar.entrySet()) {
+                if (sira == 0) {
+                    enAzHarcamaYapanAy = entry.getKey();
+                    enAzHarcamaYapanAyTutar = entry.getValue();
+                } else {
+                    if (enAzHarcamaYapanAyTutar > entry.getValue()) {
+                        enAzHarcamaYapanAy = entry.getKey();
+                        enAzHarcamaYapanAyTutar = entry.getValue();
+                    }
+                }
                 ((DefaultTableModel) jTable_AYLAR1.getModel()).addRow(new Object[]{entry.getKey(), entry.getValue()});
+                sira++;
             }
+            jLabel_ENAZHARYAPAY.setText("En az har yap ay : " + enAzHarcamaYapanAy);
             
             for (Map.Entry<String, Double> entry : gunler.entrySet()) {
                 ((DefaultTableModel) jTable_GUNLER.getModel()).addRow(new Object[]{entry.getKey(), entry.getValue()});
             }
             
-            
-            
-            
-            
-            
+            if (haftaici > haftasonu) {
+                jLabel_HAFTASONUMU.setText("Hafta içi dah fazla har yap.");
+            } else {
+                jLabel_HAFTASONUMU.setText("Hafta sonu dah fazla har yap.");
+            }            
 
-            System.out.println("TOPLAM PARA : " + toplamPara);
+            jLabel_TOPLAMPARA.setText("Toplam ödenen para : " + toplamPara);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(AnaEkran.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -140,6 +177,10 @@ public class AnaEkran extends javax.swing.JFrame {
         jTable_GUNLER = new javax.swing.JTable();
         jScrollPane8 = new javax.swing.JScrollPane();
         jTable_AYLAR1 = new javax.swing.JTable();
+        jLabel_TOPLAMPARA = new javax.swing.JLabel();
+        jLabel_ENCOKHARYAPKAT = new javax.swing.JLabel();
+        jLabel_ENAZHARYAPAY = new javax.swing.JLabel();
+        jLabel_HAFTASONUMU = new javax.swing.JLabel();
 
         jTable3.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -336,9 +377,19 @@ public class AnaEkran extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 391, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 391, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
-                .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 391, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
+                        .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 391, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(20, 20, 20))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(88, 88, 88)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel_ENCOKHARYAPKAT, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel_TOPLAMPARA, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel_ENAZHARYAPAY, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel_HAFTASONUMU, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -347,9 +398,21 @@ public class AnaEkran extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
-                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(47, 47, 47))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
+                        .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(47, 47, 47))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(71, 71, 71)
+                        .addComponent(jLabel_TOPLAMPARA, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel_ENCOKHARYAPKAT, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel_ENAZHARYAPAY, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel_HAFTASONUMU, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         jTabbedPane1.addTab("tab2", jPanel2);
@@ -404,6 +467,10 @@ public class AnaEkran extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel_ENAZHARYAPAY;
+    private javax.swing.JLabel jLabel_ENCOKHARYAPKAT;
+    private javax.swing.JLabel jLabel_HAFTASONUMU;
+    private javax.swing.JLabel jLabel_TOPLAMPARA;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;

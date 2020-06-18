@@ -236,9 +236,23 @@
                           <Component id="jScrollPane7" min="-2" pref="391" max="-2" attributes="0"/>
                           <Component id="jScrollPane2" min="-2" pref="391" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="56" max="32767" attributes="0"/>
-                      <Component id="jScrollPane8" min="-2" pref="391" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <EmptySpace pref="56" max="32767" attributes="0"/>
+                              <Component id="jScrollPane8" min="-2" pref="391" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="88" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="jLabel_ENCOKHARYAPKAT" min="-2" pref="300" max="-2" attributes="0"/>
+                                  <Component id="jLabel_TOPLAMPARA" min="-2" pref="300" max="-2" attributes="0"/>
+                                  <Component id="jLabel_ENAZHARYAPAY" alignment="0" min="-2" pref="300" max="-2" attributes="0"/>
+                                  <Component id="jLabel_HAFTASONUMU" alignment="0" min="-2" pref="300" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="32767" attributes="0"/>
+                          </Group>
+                      </Group>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -250,9 +264,24 @@
                           <Component id="jScrollPane2" min="-2" pref="297" max="-2" attributes="0"/>
                           <Component id="jScrollPane8" min="-2" pref="297" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="54" max="32767" attributes="0"/>
-                      <Component id="jScrollPane7" min="-2" pref="297" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <EmptySpace pref="54" max="32767" attributes="0"/>
+                              <Component id="jScrollPane7" min="-2" pref="297" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="71" max="-2" attributes="0"/>
+                              <Component id="jLabel_TOPLAMPARA" min="-2" pref="26" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="jLabel_ENCOKHARYAPKAT" min="-2" pref="26" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="jLabel_ENAZHARYAPAY" min="-2" pref="26" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="jLabel_HAFTASONUMU" min="-2" pref="26" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                          </Group>
+                      </Group>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -366,6 +395,14 @@
                 </Component>
               </SubComponents>
             </Container>
+            <Component class="javax.swing.JLabel" name="jLabel_TOPLAMPARA">
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel_ENCOKHARYAPKAT">
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel_ENAZHARYAPAY">
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel_HAFTASONUMU">
+            </Component>
           </SubComponents>
         </Container>
       </SubComponents>
