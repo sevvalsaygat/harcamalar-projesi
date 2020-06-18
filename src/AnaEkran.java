@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
@@ -18,7 +20,7 @@ import javax.swing.table.DefaultTableModel;
  * @author Saygat
  */
 public class AnaEkran extends javax.swing.JFrame {
-
+    HashMap<String, Double> kategoriler = new HashMap<>();
     /**
      * Creates new form AnaEkran
      */
@@ -33,6 +35,13 @@ public class AnaEkran extends javax.swing.JFrame {
                 if (sira != 0) {
                     ((DefaultTableModel) jTable1.getModel()).addRow(new Object[]{satir.split(";")[0], satir.split(";")[1], satir.split(";")[2], satir.split(";")[3]});
                     toplamPara += Double.valueOf(satir.split(";")[3]);
+                    
+                    if (kategoriler.containsKey(satir.split(";")[2])) {                    
+                        kategoriler.put(satir.split(";")[2], kategoriler.get(satir.split(";")[2]) + Double.valueOf(satir.split(";")[3]));
+                    } else {
+                        kategoriler.put(satir.split(";")[2], Double.valueOf(satir.split(";")[3]));
+                    }
+                    
                 } else {
                     jTable1.getColumnModel().getColumn(0).setHeaderValue(satir.split(";")[0]);
                     jTable1.getColumnModel().getColumn(1).setHeaderValue(satir.split(";")[1]);
@@ -42,6 +51,17 @@ public class AnaEkran extends javax.swing.JFrame {
                 //System.out.println("şuan ki satır = " + satir);
                 sira++;
             }
+            
+            
+            
+            
+            
+            for (Map.Entry<String, Double> entry : kategoriler.entrySet()) {
+                ((DefaultTableModel) jTable_KATEGORILER.getModel()).addRow(new Object[]{entry.getKey(), entry.getValue()});
+            }   
+            
+            
+            
 
             System.out.println("TOPLAM PARA : " + toplamPara);
         } catch (FileNotFoundException ex) {
@@ -60,11 +80,28 @@ public class AnaEkran extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable3 = new javax.swing.JTable();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable_KATEGORILER = new javax.swing.JTable();
+
+        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane3.setViewportView(jTable3);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -97,15 +134,50 @@ public class AnaEkran extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("tab1", jPanel1);
 
+        jTable_KATEGORILER.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "KATEGORİ", "TOPLAM TUTAR"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Double.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(jTable_KATEGORILER);
+        if (jTable_KATEGORILER.getColumnModel().getColumnCount() > 0) {
+            jTable_KATEGORILER.getColumnModel().getColumn(0).setResizable(false);
+            jTable_KATEGORILER.getColumnModel().getColumn(1).setResizable(false);
+        }
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 885, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(524, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 723, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(29, 29, 29)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(404, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("tab2", jPanel2);
@@ -163,7 +235,11 @@ public class AnaEkran extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable3;
+    private javax.swing.JTable jTable_KATEGORILER;
     // End of variables declaration//GEN-END:variables
 }
