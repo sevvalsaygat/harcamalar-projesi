@@ -25,6 +25,7 @@ import javax.swing.table.DefaultTableModel;
 public class AnaEkran extends javax.swing.JFrame {
     HashMap<String, Double> kategoriler = new HashMap<>();
     HashMap<String, Double> aylar = new HashMap<>();
+    HashMap<String, Double> gunler = new HashMap<>();
     /**
      * Creates new form AnaEkran
      */
@@ -59,6 +60,18 @@ public class AnaEkran extends javax.swing.JFrame {
                     }
                     
                     
+                    try {
+                        Date tarih = new SimpleDateFormat("d.M.yyyy").parse(satir.split(";")[1]);
+                        
+                        if (gunler.containsKey(tarih.toString().split(" ")[0])) {                    
+                            gunler.put(tarih.toString().split(" ")[0], gunler.get(tarih.toString().split(" ")[0]) + Double.valueOf(satir.split(";")[3]));
+                        } else {
+                            gunler.put(tarih.toString().split(" ")[0], Double.valueOf(satir.split(";")[3]));
+                        }
+                    } catch (ParseException ex) {
+                        Logger.getLogger(AnaEkran.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    
                 } else {
                     jTable1.getColumnModel().getColumn(0).setHeaderValue(satir.split(";")[0]);
                     jTable1.getColumnModel().getColumn(1).setHeaderValue(satir.split(";")[1]);
@@ -78,7 +91,11 @@ public class AnaEkran extends javax.swing.JFrame {
             }
             
             for (Map.Entry<String, Double> entry : aylar.entrySet()) {
-                ((DefaultTableModel) jTable_AYLAR.getModel()).addRow(new Object[]{entry.getKey(), entry.getValue()});
+                ((DefaultTableModel) jTable_AYLAR1.getModel()).addRow(new Object[]{entry.getKey(), entry.getValue()});
+            }
+            
+            for (Map.Entry<String, Double> entry : gunler.entrySet()) {
+                ((DefaultTableModel) jTable_GUNLER.getModel()).addRow(new Object[]{entry.getKey(), entry.getValue()});
             }
             
             
@@ -120,7 +137,9 @@ public class AnaEkran extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable_KATEGORILER = new javax.swing.JTable();
         jScrollPane7 = new javax.swing.JScrollPane();
-        jTable_AYLAR = new javax.swing.JTable();
+        jTable_GUNLER = new javax.swing.JTable();
+        jScrollPane8 = new javax.swing.JScrollPane();
+        jTable_AYLAR1 = new javax.swing.JTable();
 
         jTable3.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -250,7 +269,36 @@ public class AnaEkran extends javax.swing.JFrame {
             jTable_KATEGORILER.getColumnModel().getColumn(1).setResizable(false);
         }
 
-        jTable_AYLAR.setModel(new javax.swing.table.DefaultTableModel(
+        jTable_GUNLER.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "GÜNLER", "TOPLAM TUTAR"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Double.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane7.setViewportView(jTable_GUNLER);
+        if (jTable_GUNLER.getColumnModel().getColumnCount() > 0) {
+            jTable_GUNLER.getColumnModel().getColumn(0).setResizable(false);
+            jTable_GUNLER.getColumnModel().getColumn(1).setResizable(false);
+        }
+
+        jTable_AYLAR1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -273,10 +321,10 @@ public class AnaEkran extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane7.setViewportView(jTable_AYLAR);
-        if (jTable_AYLAR.getColumnModel().getColumnCount() > 0) {
-            jTable_AYLAR.getColumnModel().getColumn(0).setResizable(false);
-            jTable_AYLAR.getColumnModel().getColumn(1).setResizable(false);
+        jScrollPane8.setViewportView(jTable_AYLAR1);
+        if (jTable_AYLAR1.getColumnModel().getColumnCount() > 0) {
+            jTable_AYLAR1.getColumnModel().getColumn(0).setResizable(false);
+            jTable_AYLAR1.getColumnModel().getColumn(1).setResizable(false);
         }
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -285,19 +333,23 @@ public class AnaEkran extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(27, 27, 27)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 391, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
-                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 391, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 391, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 391, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
+                .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 391, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(28, 28, 28)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(398, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(47, 47, 47))
         );
 
         jTabbedPane1.addTab("tab2", jPanel2);
@@ -361,12 +413,14 @@ public class AnaEkran extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
     private javax.swing.JTable jTable4;
-    private javax.swing.JTable jTable_AYLAR;
+    private javax.swing.JTable jTable_AYLAR1;
+    private javax.swing.JTable jTable_GUNLER;
     private javax.swing.JTable jTable_KATEGORILER;
     private javax.swing.JTable jTable_KATEGORILER1;
     // End of variables declaration//GEN-END:variables
