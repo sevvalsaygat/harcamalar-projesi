@@ -6,13 +6,13 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author Saygat
@@ -27,9 +27,23 @@ public class AnaEkran extends javax.swing.JFrame {
         try {
             //Dosya okuma işlemleri
             BufferedReader bufferedReader = new BufferedReader(new FileReader(new File("src/harcamalar.txt")));
+            int sira = 0;
+            double toplamPara = 0;
             for (String satir; (satir = bufferedReader.readLine()) != null;) {
-                System.out.println("şuan ki satır = " + satir);
-            }            
+                if (sira != 0) {
+                    ((DefaultTableModel) jTable1.getModel()).addRow(new Object[]{satir.split(";")[0], satir.split(";")[1], satir.split(";")[2], satir.split(";")[3]});
+                    toplamPara += Double.valueOf(satir.split(";")[3]);
+                } else {
+                    jTable1.getColumnModel().getColumn(0).setHeaderValue(satir.split(";")[0]);
+                    jTable1.getColumnModel().getColumn(1).setHeaderValue(satir.split(";")[1]);
+                    jTable1.getColumnModel().getColumn(2).setHeaderValue(satir.split(";")[2]);
+                    jTable1.getColumnModel().getColumn(3).setHeaderValue(satir.split(";")[3]);
+                }
+                //System.out.println("şuan ki satır = " + satir);
+                sira++;
+            }
+
+            System.out.println("TOPLAM PARA : " + toplamPara);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(AnaEkran.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
