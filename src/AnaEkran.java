@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -21,6 +24,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class AnaEkran extends javax.swing.JFrame {
     HashMap<String, Double> kategoriler = new HashMap<>();
+    HashMap<String, Double> aylar = new HashMap<>();
     /**
      * Creates new form AnaEkran
      */
@@ -42,6 +46,19 @@ public class AnaEkran extends javax.swing.JFrame {
                         kategoriler.put(satir.split(";")[2], Double.valueOf(satir.split(";")[3]));
                     }
                     
+                    try {
+                        Date tarih = new SimpleDateFormat("d.M.yyyy").parse(satir.split(";")[1]);
+                        
+                        if (aylar.containsKey(tarih.toString().split(" ")[1])) {                    
+                            aylar.put(tarih.toString().split(" ")[1], aylar.get(tarih.toString().split(" ")[1]) + Double.valueOf(satir.split(";")[3]));
+                        } else {
+                            aylar.put(tarih.toString().split(" ")[1], Double.valueOf(satir.split(";")[3]));
+                        }
+                    } catch (ParseException ex) {
+                        Logger.getLogger(AnaEkran.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    
+                    
                 } else {
                     jTable1.getColumnModel().getColumn(0).setHeaderValue(satir.split(";")[0]);
                     jTable1.getColumnModel().getColumn(1).setHeaderValue(satir.split(";")[1]);
@@ -58,7 +75,14 @@ public class AnaEkran extends javax.swing.JFrame {
             
             for (Map.Entry<String, Double> entry : kategoriler.entrySet()) {
                 ((DefaultTableModel) jTable_KATEGORILER.getModel()).addRow(new Object[]{entry.getKey(), entry.getValue()});
-            }   
+            }
+            
+            for (Map.Entry<String, Double> entry : aylar.entrySet()) {
+                ((DefaultTableModel) jTable_AYLAR.getModel()).addRow(new Object[]{entry.getKey(), entry.getValue()});
+            }
+            
+            
+            
             
             
             
@@ -82,6 +106,12 @@ public class AnaEkran extends javax.swing.JFrame {
 
         jScrollPane3 = new javax.swing.JScrollPane();
         jTable3 = new javax.swing.JTable();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        jTable4 = new javax.swing.JTable();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        jTable_KATEGORILER1 = new javax.swing.JTable();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -89,6 +119,8 @@ public class AnaEkran extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable_KATEGORILER = new javax.swing.JTable();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        jTable_AYLAR = new javax.swing.JTable();
 
         jTable3.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -102,6 +134,61 @@ public class AnaEkran extends javax.swing.JFrame {
             }
         ));
         jScrollPane3.setViewportView(jTable3);
+
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane4.setViewportView(jTable2);
+
+        jTable4.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane5.setViewportView(jTable4);
+
+        jTable_KATEGORILER1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "KATEGORİ", "TOPLAM TUTAR"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Double.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane6.setViewportView(jTable_KATEGORILER1);
+        if (jTable_KATEGORILER1.getColumnModel().getColumnCount() > 0) {
+            jTable_KATEGORILER1.getColumnModel().getColumn(0).setResizable(false);
+            jTable_KATEGORILER1.getColumnModel().getColumn(1).setResizable(false);
+        }
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -163,21 +250,54 @@ public class AnaEkran extends javax.swing.JFrame {
             jTable_KATEGORILER.getColumnModel().getColumn(1).setResizable(false);
         }
 
+        jTable_AYLAR.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "AYLAR", "TOPLAM TUTAR"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Double.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane7.setViewportView(jTable_AYLAR);
+        if (jTable_AYLAR.getColumnModel().getColumnCount() > 0) {
+            jTable_AYLAR.getColumnModel().getColumn(0).setResizable(false);
+            jTable_AYLAR.getColumnModel().getColumn(1).setResizable(false);
+        }
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(524, Short.MAX_VALUE))
+                .addGap(27, 27, 27)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 391, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 391, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(29, 29, 29)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(404, Short.MAX_VALUE))
+                .addGap(28, 28, 28)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(398, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("tab2", jPanel2);
@@ -237,9 +357,17 @@ public class AnaEkran extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
+    private javax.swing.JTable jTable4;
+    private javax.swing.JTable jTable_AYLAR;
     private javax.swing.JTable jTable_KATEGORILER;
+    private javax.swing.JTable jTable_KATEGORILER1;
     // End of variables declaration//GEN-END:variables
 }
